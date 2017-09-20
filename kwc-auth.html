@@ -509,7 +509,6 @@ Front end for Kano&#39;s authentication flow.
                     password: this.password
                 };
                 this.fire('login', credentials);
-                return false;
             },
             /**
              * Event signaling the user submitted the first information for the
@@ -530,7 +529,6 @@ Front end for Kano&#39;s authentication flow.
                     password: this.password
                 };
                 this.fire('submit-signup-info', info);
-                return false;
             },
             /**
              * Handles user decide to proceed when asked to find a person with
@@ -539,21 +537,23 @@ Front end for Kano&#39;s authentication flow.
             _onSubmitGrownup (e) {
                 e.preventDefault();
                 this.showEmail();
-                return false;
             },
             /**
              * Event signaling the user submitted an email to secure the
              * account.
              * @event submit-signup-email
-             * @param {String} email Responsible email.
+             * @param {String} data Responsible `email` and `newsletter`.
              */
             /**
              * Handles "secure your account" form submission.
              */
             _onSubmitSignupEmail (e) {
                 e.preventDefault();
-                this.fire('submit-signup-email', this.email);
-                return false;
+                let data = {
+                    email: this.email,
+                    newsletter: newsletter
+                };
+                this.fire('submit-signup-email', data);
             },
             /**
              * Handles form submission when process is done.
@@ -561,7 +561,6 @@ Front end for Kano&#39;s authentication flow.
             _onSubmitDone (e) {
                 e.preventDefault();
                 this.close();
-                return false;
             },
             /**
              * Event signaling the uer forgot the username and it's requesting a
@@ -575,7 +574,6 @@ Front end for Kano&#39;s authentication flow.
             _onSumbitForgotUsername (e) {
                 e.preventDefault();
                 this.fire('forgot-username', this.email);
-                return false;
             },
             /**
              * Event signaling the user forgot the password and it's requesting
@@ -589,7 +587,6 @@ Front end for Kano&#39;s authentication flow.
             _onSubmitForgotPassword (e) {
                 e.preventDefault();
                 this.fire('forgot-password', this.username);
-                return false;
             },
 
             /** EVENT PROXIES */
