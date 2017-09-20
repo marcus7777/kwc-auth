@@ -19,57 +19,57 @@ Front end for Kano&#39;s authentication flow.
             :host {
                 --paper-spinner-color: #ff842a;
             }
-            :host kano-modal {
+            kano-modal {
                 --kano-modal-main: {
                     color: #4d4d4d;
                 };
             }
-            :host kano-modal > * {
+            kano-modal > * {
                 margin: auto;
                 color: #4d4d4d;
             }
-            :host kano-modal {
+            kano-modal {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
             }
-            :host #pager {
+            #pager {
                 padding: 50px 0 40px;
                 margin-top: 85px;
                 background-color: #fff;
             }
-            :host #pager > * {
+            #pager > * {
                 margin: auto 50px;
             }
-            :host h2 {
+            h2 {
                 font-family: 'Bariol', sans-serif;
                 font-size: 21px;
                 font-weight: bold;
                 margin-top: 10px;
                 margin-bottom: 14px;
             }
-            :host .body {
+            .body {
                 color: #999;
                 margin-bottom: 18px;
                 line-height: 18px;
             }
-            :host .fields {
+            .fields {
                 display: flex;
                 align-items: stretch;
                 justify-content:center;
                 flex-direction: column;
             }
-            :host .submit-wrapper {
+            .submit-wrapper {
                 margin-top: 20px;
                 position: relative;
             }
-            :host .submit-wrapper paper-spinner-lite {
+            .submit-wrapper paper-spinner-lite {
                 @apply --layout-fit;
                 margin: auto;
                 pointer-events: none;
             }
-            :host .fields > input {
+            .fields > input {
                 display: block;
                 margin: 8px 0px 4px 0px;
                 border-radius: 5px;
@@ -79,99 +79,99 @@ Front end for Kano&#39;s authentication flow.
                 font-family: 'Bariol', sans-serif;
                 padding: 10px;
             }
-            :host .fields input:focus {
+            .fields input:focus {
                 border-color: #ff842a;
             }
-            :host .fields input[type=checkbox] {
+            .fields input[type=checkbox] {
                 display: inline;
                 margin-right: 10px
             }
-            :host input[type=submit] {
+            input[type=submit] {
                 @apply --kano-button;
                 margin: auto;
                 background-color: #ff842a;
                 font-weight: bold;
                 width: 80%;
             }
-            :host input[type=submit]:hover {
+            input[type=submit]:hover {
                 background-color: #fd621e;
             }
-            :host input[type=submit]:disabled,
-            :host input[type=submit]:disabled:hover {
+            input[type=submit]:disabled,
+            input[type=submit]:disabled:hover {
                 background-color: #ccc;
                 cursor: default;
             }
-            :host input[type=submit]:focus {
+            input[type=submit]:focus {
                 text-decoration: underline;
             }
-            :host fieldset {
+            fieldset {
                 border: 1px #ff842a dashed;
                 border-radius: 5px;
             }
-            :host fieldset.grey {
+            fieldset.grey {
                 border: 1px #ccc dashed;
                 margin: 20px auto;
             }
-            :host fieldset button {
+            fieldset button {
                 margin: 25px auto 30px auto;
             }
-            :host fieldset legend {
+            fieldset legend {
                 font-weight: bold;
                 background-color: #fff;
                 padding: 0px 10px;
             }
-            :host .footer {
+            .footer {
                 color: #999;
                 margin-top: 56px;
             }
-            :host .footer .bold {
+            .footer .bold {
                 font-weight: bold;
             }
-            :host a, :host a {
+            a, a {
                 color: #999;
                 text-decoration: none;
                 border-bottom: 1px solid #e2e2e2;
                 cursor: pointer;
             }
-            :host a:hover, :host a:hover {
+            a:hover, a:hover {
                 color: black;
             }
-            :host .checkboxes {
+            .checkboxes {
                 text-align: left;
                 margin: 10px auto 5px auto;
             }
-            :host .form-error {
+            .form-error {
                 text-align: left;
                 color: #ED5F5F;
                 font-weight: bold;
                 margin: auto 2px 5px 2px;
             }
-            :host .modal-error {
+            .modal-error {
                 text-align: center;
                 color: #ED5F5F;
                 font-weight: bold;
                 margin: 25px auto;
             }
-            :host fieldset.grey > * {
+            fieldset.grey > * {
                 margin: 2px auto;
             }
-            :host .link-arrow {
+            .link-arrow {
                 opacity: 0.5;
             }
             @media all and (max-width: 580px) {
-                :host #pager {
+                #pager {
                     width: 100vw;
                     max-width: 380px;
                 }
-                :host #pager > * {
+                #pager > * {
                     margin: auto 40px;
                 }
-                :host h2 {
+                h2 {
                     font-size: 18px;
                 }
             }
             @media all and (min-width: 580px) {
-                :host #pager {
+                #pager {
                     width: 460px;
                 }
             }
