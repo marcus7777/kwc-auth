@@ -643,12 +643,20 @@ Front end for Kano&#39;s authentication flow.
                 this.$.dialog.close();
             },
             /**
+             * Fired when user actively choses to skip the sign in process.
+             * @event skip
+             */
+            /**
              * Skips sign up. Behaves the same as canceling auth.
              */
             _skip () {
                 this.fire('skip');
                 this._cancel();
             },
+            /**
+             * Fires when user dismiss the authentication by closing the modal.
+             * @event cancel
+             */
             /**
              * Cancel auth flow and close modal.
              */
