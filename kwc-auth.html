@@ -1,4 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="../kwc-modal/kwc-modal.html">
+<link rel="import" href="../kwc-style/button.html">
+<link rel="import" href="../kwc-style/typography.html">
 
 <!--
 `kwc-auth`
@@ -8,27 +14,664 @@ Front end for Kano&#39;s authentication flow.
 -->
 
 <dom-module id="kwc-auth">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]!</h2>
-  </template>
+    <template>
+        <style>
+            :host {
+                --paper-spinner-color: #ff842a;
+            }
+            :host kano-modal {
+                --kano-modal-main: {
+                    color: #4d4d4d;
+                };
+            }
+            :host kano-modal > * {
+                margin: auto;
+                color: #4d4d4d;
+            }
+            :host kano-modal {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            :host #pager {
+                padding: 50px 0 40px;
+                margin-top: 85px;
+                background-color: #fff;
+            }
+            :host #pager > * {
+                margin: auto 50px;
+            }
+            :host h2 {
+                font-family: 'Bariol', sans-serif;
+                font-size: 21px;
+                font-weight: bold;
+                margin-top: 10px;
+                margin-bottom: 14px;
+            }
+            :host .body {
+                color: #999;
+                margin-bottom: 18px;
+                line-height: 18px;
+            }
+            :host .fields {
+                display: flex;
+                align-items: stretch;
+                justify-content:center;
+                flex-direction: column;
+            }
+            :host .submit-wrapper {
+                margin-top: 20px;
+                position: relative;
+            }
+            :host .submit-wrapper paper-spinner-lite {
+                @apply --layout-fit;
+                margin: auto;
+                pointer-events: none;
+            }
+            :host .fields > input {
+                display: block;
+                margin: 8px 0px 4px 0px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                outline: none;
+                font-size: 16px;
+                font-family: 'Bariol', sans-serif;
+                padding: 10px;
+            }
+            :host .fields input:focus {
+                border-color: #ff842a;
+            }
+            :host .fields input[type=checkbox] {
+                display: inline;
+                margin-right: 10px
+            }
+            :host input[type=submit] {
+                @apply --kano-button;
+                margin: auto;
+                background-color: #ff842a;
+                font-weight: bold;
+                width: 80%;
+            }
+            :host input[type=submit]:hover {
+                background-color: #fd621e;
+            }
+            :host input[type=submit]:disabled,
+            :host input[type=submit]:disabled:hover {
+                background-color: #ccc;
+                cursor: default;
+            }
+            :host input[type=submit]:focus {
+                text-decoration: underline;
+            }
+            :host fieldset {
+                border: 1px #ff842a dashed;
+                border-radius: 5px;
+            }
+            :host fieldset.grey {
+                border: 1px #ccc dashed;
+                margin: 20px auto;
+            }
+            :host fieldset button {
+                margin: 25px auto 30px auto;
+            }
+            :host fieldset legend {
+                font-weight: bold;
+                background-color: #fff;
+                padding: 0px 10px;
+            }
+            :host .footer {
+                color: #999;
+                margin-top: 56px;
+            }
+            :host .footer .bold {
+                font-weight: bold;
+            }
+            :host a, :host a {
+                color: #999;
+                text-decoration: none;
+                border-bottom: 1px solid #e2e2e2;
+                cursor: pointer;
+            }
+            :host a:hover, :host a:hover {
+                color: black;
+            }
+            :host .checkboxes {
+                text-align: left;
+                margin: 10px auto 5px auto;
+            }
+            :host .form-error {
+                text-align: left;
+                color: #ED5F5F;
+                font-weight: bold;
+                margin: auto 2px 5px 2px;
+            }
+            :host .modal-error {
+                text-align: center;
+                color: #ED5F5F;
+                font-weight: bold;
+                margin: 25px auto;
+            }
+            :host fieldset.grey > * {
+                margin: 2px auto;
+            }
+            :host .link-arrow {
+                opacity: 0.5;
+            }
+            @media all and (max-width: 580px) {
+                :host #pager {
+                    width: 100vw;
+                    max-width: 380px;
+                }
+                :host #pager > * {
+                    margin: auto 40px;
+                }
+                :host h2 {
+                    font-size: 18px;
+                }
+            }
+            @media all and (min-width: 580px) {
+                :host #pager {
+                    width: 460px;
+                }
+            }
+        </style>
+        <kwc-modal id="dialog" on-dismiss="_cancel" assets-path="[[assetsPath]]" motif="[[assetsPath]]/avatar/judoka-face.svg" opened="{{opened}}" closable="{{!isForceSignup}}">
+            <iron-pages attr-for-selected="id" selected="login" id="pager">
+                <div id="login">
+                    <h2>Log in to your account</h2>
+                    <form class="fields" on-submit="_onSubmitLogin">
+                        <input type="text" value="{{username::input}}" placeholder="Your Kano username" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
+                        <input type="password" value="{{password::input}}" placeholder="Your secret password" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
+                        <div class="submit-wrapper">
+                            <input disabled$="[[processing]]" type="submit" value="Log in" />
+                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                        </div>
+                    </form>
+                    <div class="footer">
+                        Forgot your <a on-tap="showPasswordReset">password</a> or
+                        <a on-tap="showUsernameReminder">username</a>?<br />
+                        <a on-tap="showSignup">Sign up <img src="[[assetsPath]]/icons/link-arrow.svg" class="link-arrow" /></a>
+                    </div>
+                </div>
+                <div id="signup">
+                    <h2>Save your XP: join Kano</h2>
+                    <div class="body">
+                        Make a special username to save what you&rsquo;ve earned.
+                    </div>
+                    <form class="fields" on-submit="_onSubmitSignupInfo">
+                        <input type="text" value="{{firstName::input}}" placeholder="Type your first name" tabindex="0" />
+                        <input type="text" value="{{username::input}}" placeholder="Make up a Kano username" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
+                        <input type="password" value="{{password::input}}" placeholder="Make up a secret password" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
+                        <div class="submit-wrapper">
+                            <input disabled$="[[processing]]" type="submit" value="Join" />
+                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                        </div>
+                    </form>
+                    <div class="footer">
+                        Have an account already? Go to <br>
+                        <a on-tap="showLogin">Log in <img src="[[assetsPath]]/icons/link-arrow.svg" class="link-arrow" /></a>
+                    </div>
+                </div>
+                <div id="grownups">
+                    <h2>Now go find your mum or dad!</h2>
+                    <div class="body">
+                        Ask a parent, teacher or guardian to help you (it&rsquo;ll take less than a minute).
+                        If they can&rsquo;t help right now, press &lsquo;Sign up later&rsquo;.
+                    </div>
+                    <form on-submit="_onSubmitGrownup">
+                        <fieldset>
+                          <legend>Grown Ups Only</legend>
+                          <input type="submit" value="Join"/>
+                        </fieldset>
+                    </form>
+                    <div class="footer">
+                        <div class="bold">
+                            No grown ups around?
+                        </div>
+                        <a on-tap="_skip">Sign up later</a>
+                    </div>
+                </div>
+                <div id="email">
+                    <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
+                    <div class="body">
+                        Kano accounts need to be associated with an adult&rsquo;s
+                        email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
+                        learning to code, creative shares, and awards won.
+                    </div>
+                    <form class="fields" on-submit="_onSubmitSignupEmail">
+                        <input type="text" value="{{email::input}}" placeholder="Add your email address" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
+                        <div class="checkboxes">
+                            <div class="checkbox-input">
+                                <input type="checkbox" checked="{{terms::change}}" id="tcs"><label for="tcs">I accept all the <a href="[[worldUrl]]/terms-of-use" target="_blank">Terms &amp; Conditions</a></label>
+                            </div>
+                            <div class="checkbox-input">
+                                <input type="checkbox" checked="{{newsletter::change}}" id="newsletter"><label for="newsletter">Subscribe to the Kano newsletter</label>
+                            </div>
+                        </div>
+                        <div class="submit-wrapper">
+                            <input disabled$="[[!emailValid]]" type="submit" value="Join" />
+                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                        </div>
+                    </form>
+                    <div class="modal-error" hidden$="[[!errors.connection]]">[[errors.connection]]</div>
+                </div>
+                <div id="done">
+                    <h2>You&rsquo;ve made a Kano Account</h2>
+                    <div class="body">
+                        Write down your username and password. Keep them
+                        somewhere secret and safe.
+                    </div>
+                    <form on-submit="_onSubmitDone">
+                        <fieldset class="grey">
+                          <legend>Keep this safe</legend>
+                          <div class="username"><strong>Username</strong> [[username]]</div>
+                          <div class="password"><strong>Password</strong> [[password]]</div>
+                        </fieldset>
+                        <div class="submit-wrapper">
+                            <input type="submit" value="Done" />
+                        </div>
+                    </form>
+                </div>
+                <div id="username-reminder">
+                    <h2>Forgotten your username?</h2>
+                    <form class="fields" on-submit="_onSumbitForgotUsername">
+                        <input type="text" value="{{email::input}}" placeholder="Your email address" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.email[[">[[errors.email]]</div>
+                        <div class="submit-wrapper">
+                            <input disabled$="[[processing]]" type="submit" value="Request reminder" />
+                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                        </div>
+                    </form>
+                    <div class="footer">
+                        <a on-tap="showPasswordReset">Forgot your password?</a><br />
+                        <a on-tap="showSignup">Sign up <img src="[[assetsPath]]/icons/link-arrow.svg" class="link-arrow" /></a>
+                    </div>
+                </div>
+                <div id="password-reset">
+                    <h2>Forgotten your password?</h2>
+                    <form class="fields" on-submit="_onSubmitForgotPassword">
+                        <input type="text" value="{{username::input}}" placeholder="Your username" tabindex="0" />
+                        <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
+                        <div class="submit-wrapper">
+                            <input disabled$="[[processing]]" type="submit" value="Request new password" />
+                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                        </div>
+                    </form>
+                    <div class="footer">
+                        <a on-tap="showUsernameReminder">Forgot your username?</a><br />
+                        <a on-tap="showSignup">Sign up <img src="[[assetsPath]]/icons/link-arrow.svg" class="link-arrow" /></a>
+                    </div>
+                </div>
+                <div id="reset-confirmation">
+                    <h2>Thanks!</h2>
+                    <div class="body">
+                        Please check your email and follow the instructions that have been sent to you.
+                    </div>
+                    <div class="body">
+                        Or <a on-tap="showLogin">Log in <img src="[[assetsPath]]/icons/link-arrow.svg" class="link-arrow" /></a>
+                    </div>
+                    <div class="footer">
+                        Forgot your <a on-tap="displayPasswordReset">password</a> or
+                        <a on-tap="showUsernameReminder">username</a>?<br />
+                        <a on-tap="showSignup">Sign up <img src="[[assetsPath]]/icons/link-arrow.svg" class="link-arrow" /></a>
+                    </div>
+                </div>
+            </iron-pages>
+        </kwc-modal>
+    </template>
 
-  <script>
-    Polymer({
+    <script>
+        Polymer({
 
-      is: 'kwc-auth',
+            is: 'kwc-auth',
 
-      properties: {
-        prop1: {
-          type: String,
-          value: 'kwc-auth',
-        },
-      },
+            properties: {
+                /**
+                 * Keeps track of error messages under the following schema:
+                 * {
+                 *     username: String,
+                 *     password: String,
+                 *     email: String,
+                 *     connection: String
+                 * }
+                 * @type {Object}
+                 */
+                errors: {
+                    type: Object,
+                    value: {}
+                },
+                /**
+                 * User name
+                 * @type {String}
+                 */
+                username: {
+                    type: String,
+                    observer: '_onChangeUsername'
+                },
+                /**
+                 * User password
+                 * @type {String}
+                 */
+                password: {
+                    type: String,
+                    observer: '_onChangePassword'
+                },
+                /**
+                 * User first name
+                 * @type {String}
+                 */
+                firstName: {
+                    type: String,
+                    observer: '_onChangeFirstName'
+                },
+                /**
+                 * User email
+                 * @type {String}
+                 */
+                email: {
+                    type: String,
+                    observer: '_onChangeEmail'
+                },
+                /**
+                 * Flags if user has accepted terms and conditions
+                 * @type {Boolean}
+                 */
+                terms: {
+                    type: Boolean,
+                    value: true
+                },
+                /**
+                 * Flags if user wants to subscribe to newsletter
+                 * @type {Boolean}
+                 */
+                newsletter: {
+                    type: Boolean,
+                    value: false
+                },
+                /**
+                 * Path for assets used during the auth flow
+                 * @type {String}
+                 */
+                assetsPath: {
+                    type: String,
+                    value: '/'
+                },
+                /**
+                 * Flags if component is waiting an answer from server or parent
+                 * component.
+                 * @type {Boolean}
+                 */
+                processing: {
+                    type: Boolean,
+                    value: false
+                },
+                /**
+                 * Flags modal is opened
+                 * @type {Boolean}
+                 */
+                opened: {
+                    type: Boolean,
+                    notify: true
+                },
+                /**
+                 * Flags if modal can be closed or not. If `isForceSignup` is
+                 * `true` then the `kwc-modal` shouldn't be closable.
+                 * @type {Boolean}
+                 */
+                isForceSignup: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            /**
+             * Changes current view to be displayed by `iron-pages`.
+             * @param {String} viewName What view to make selected.
+             */
+            _setView (viewName) {
+                this.$.pager.selected = viewName;
+            },
 
-    });
-  </script>
+            /** ROUTING UTILITIES */
+
+            /**
+             * Displays login page.
+             */
+            showLogin () {
+                this._setView('login');
+            },
+            /**
+             * Displays signup page.
+             */
+            showSignup () {
+                this._setView('signup');
+            },
+            /**
+             * Displays page that asks for a person with an email to secure the
+             * account.
+             */
+            showGrownup () {
+                this._setView('grownups');
+            },
+            /**
+             * Displays page where the account is secured with an email.
+             */
+            showEmail () {
+                this._setView('email');
+            },
+            /**
+             * Displays success page informing that the account was created with
+             * success.
+             */
+            showDone () {
+                this._setView('done');
+            },
+            /**
+             * Displays page asking for username when user can't remember the
+             * password.
+             */
+            showPasswordReset () {
+                this._setView('password-reset');
+            },
+            /**
+             * Displays page confirming the password reset request was sent.
+             */
+            showResetConfirmation () {
+                this._setView('reset-confirmation');
+            },
+            /**
+             * Displays page asking for an emaile address when user can't
+             * remember the username.
+             */
+            showUsernameReminder () {
+                this._setView('username-reminder');
+            },
+
+            /** FORM SUBMISSION */
+
+            /**
+             * Event signaling the user submitted credentials to be logged in.
+             * @event login
+             * @param {Object} credentials User's `username` and `password`.
+             */
+            /**
+             * Handles login form submission.
+             */
+            _onSubmitLogin (e) {
+                e.preventDefault();
+                let credentials = {
+                    username: this.username,
+                    password: this.password
+                };
+                this.fire('login', credentials);
+                return false;
+            },
+            /**
+             * Event signaling the user submitted the first information for the
+             * sign up process. Currently `firstName`, `username` and
+             * `password`.
+             * @event submit-signup-info
+             * @param {Object} info Signup user info. Currently `firstName`,
+             * `username` and `password`.
+             */
+            /**
+             * Handles signup form submission.
+             */
+            _onSubmitSignupInfo (e) {
+                e.preventDefault();
+                let info = {
+                    firstName: this.firstName,
+                    username: this.username,
+                    password: this.password
+                };
+                this.fire('submit-signup-info', info);
+                return false;
+            },
+            /**
+             * Handles user decide to proceed when asked to find a person with
+             * an email.
+             */
+            _onSubmitGrownup (e) {
+                e.preventDefault();
+                this.showEmail();
+                return false;
+            },
+            /**
+             * Event signaling the user submitted an email to secure the
+             * account.
+             * @event submit-signup-email
+             * @param {String} email Responsible email.
+             */
+            /**
+             * Handles "secure your account" form submission.
+             */
+            _onSubmitSignupEmail (e) {
+                e.preventDefault();
+                this.fire('submit-signup-email', this.email);
+                return false;
+            },
+            /**
+             * Handles form submission when process is done.
+             */
+            _onSubmitDone (e) {
+                e.preventDefault();
+                this.close();
+                return false;
+            },
+            /**
+             * Event signaling the uer forgot the username and it's requesting a
+             * username reminder by providing the email.
+             * @event forgot-username
+             * @param {String} email User email.
+             */
+            /**
+             * Handles form submission for username reminder.
+             */
+            _onSumbitForgotUsername (e) {
+                e.preventDefault();
+                this.fire('forgot-username', this.email);
+                return false;
+            },
+            /**
+             * Event signaling the user forgot the password and it's requesting
+             * a password reset by providing the username.
+             * @event forgot-password
+             * @param {String} username Username.
+             */
+            /**
+             * Handles form submission for password reset request.
+             */
+            _onSubmitForgotPassword (e) {
+                e.preventDefault();
+                this.fire('forgot-password', this.username);
+                return false;
+            },
+
+            /** EVENT PROXIES */
+
+            /**
+             * Proxies change events for `username` property.
+             * @param {String} username Username.
+             */
+            _onChangeUsername (username) {
+                this.fire('change-username', username);
+            },
+            /**
+             * Proxies change events for `password` property.
+             * @param {String} password User password.
+             */
+            _onChangePassword (password) {
+                this.fire('change-password', password);
+            },
+            /**
+             * Proxies change events for `firstName` property.
+             * @param {String} firstName User first name.
+             */
+            _onChangeFirstName (firstName) {
+                this.fire('change-firstname', firstName);
+            },
+            /**
+             * Proxies change events for `email` property.
+             * @param {String} email User (or a responsible person) email.
+             */
+            _onChangeEmail (email) {
+                this.fire('change-email', email);
+            },
+
+            /** MODAL CONTROL */
+
+            /**
+             * Opens auth modal with a default page on display.
+             * @param {String} defaultPage Page to display when auth modal
+             *     opens. Not required.
+             */
+            open (defaultPage) {
+                this.reset();
+                defaultPage = defaultPage || 'login';
+                this._setView(defaultPage);
+                this.$.dialog.open();
+            },
+            /**
+             * Closes auth modal.
+             */
+            close () {
+                this.$.dialog.close();
+            },
+            /**
+             * Skips sign up. Behaves the same as canceling auth.
+             */
+            _skip () {
+                this.fire('skip');
+                this._cancel();
+            },
+            /**
+             * Cancel auth flow and close modal.
+             */
+            _cancel () {
+                this.fire('cancel');
+                this.close();
+            },
+
+            /** INTERNAL STATE MANAGEMENT */
+
+            /**
+             * Resets user information information: `firstName`, `username`,
+             * `password`, `email`, `terms` and `newsletter`.
+             */
+            reset () {
+                this.set('errors', {});
+                this.firstName = null;
+                this.username = null;
+                this.password = null;
+                this.email = null;
+                this.terms = true;
+                this.newsletter = false;
+            }
+        });
+    </script>
 </dom-module>

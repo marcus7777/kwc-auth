@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -10,20 +10,46 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../kwc-style/typography.html">
     <link rel="import" href="../kwc-auth.html">
 
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles"></style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+        button {
+            border-radius: 3px;
+            width: 100px;
+            height: 80px;
+            background-color: #fff;
+            font-family: 'Bariol', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        </style>
     </custom-style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="vertical-section-container centered">
-      <h3>Basic kwc-auth demo</h3>
-      <demo-snippet>
-        <template>
-          <kwc-auth></kwc-auth>
-        </template>
-      </demo-snippet>
+        <h3>Basic kwc-auth demo</h3>
+        <demo-snippet>
+            <template>
+                <button id="open-button" type="button">Open modal</button>
+                <kwc-auth id="auth"
+                        world-url="https://world-staging.kano.me"
+                        api-url="https://api-staging.kano.me"
+                        assets-path="demo-assets">
+                </kwc-auth>
+            </template>
+        </demo-snippet>
+        <script type="text/javascript">
+            document.addEventListener('WebComponentsReady', () => {
+                var auth = document.querySelector('#auth');
+                var openButton = document.querySelector('#open-button');
+                auth.open();
+                openButton.addEventListener('click', function() {
+                    auth.open();
+                });
+            });
+        </script>
     </div>
-  </body>
+</body>
 </html>
