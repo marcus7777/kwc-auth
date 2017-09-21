@@ -503,6 +503,7 @@ Front end for Kano&#39;s authentication flow.
 
             /**
              * Event signaling the user submitted credentials to be logged in.
+             *
              * @event login
              * @param {Object} credentials User's `username` and `password`.
              */
@@ -521,6 +522,7 @@ Front end for Kano&#39;s authentication flow.
              * Event signaling the user submitted the first information for the
              * sign up process. Currently `firstName`, `username` and
              * `password`.
+             *
              * @event submit-signup-info
              * @param {Object} info Signup user info. Currently `firstName`,
              * `username` and `password`.
@@ -548,6 +550,7 @@ Front end for Kano&#39;s authentication flow.
             /**
              * Event signaling the user submitted an email to secure the
              * account.
+             *
              * @event submit-signup-email
              * @param {String} data Responsible `email` and `newsletter`.
              */
@@ -572,6 +575,7 @@ Front end for Kano&#39;s authentication flow.
             /**
              * Event signaling the uer forgot the username and it's requesting a
              * username reminder by providing the email.
+             *
              * @event forgot-username
              * @param {String} email User email.
              */
@@ -584,7 +588,8 @@ Front end for Kano&#39;s authentication flow.
             },
             /**
              * Event signaling the user forgot the password and it's requesting
-             * a password reset by providing the username.
+             * a password reset by providin
+             *
              * @event forgot-password
              * @param {String} username Username.
              */
@@ -647,7 +652,8 @@ Front end for Kano&#39;s authentication flow.
                 this.$.dialog.close();
             },
             /**
-             * Fired when user actively choses to skip the sign in process.
+             * Fired when user actively choses to skip the s
+             *
              * @event skip
              */
             /**
@@ -658,7 +664,8 @@ Front end for Kano&#39;s authentication flow.
                 this._cancel();
             },
             /**
-             * Fires when user dismiss the authentication by closing the modal.
+             * Fires when user dismiss the authentication by clo
+             *
              * @event cancel
              */
             /**
