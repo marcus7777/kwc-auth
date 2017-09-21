@@ -3,12 +3,20 @@
   "description": "Front end for Kano&#39;s authentication flow.",
   "main": "kwc-auth.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.9.0"
+    "polymer": "Polymer/polymer#^1.9.0",
+    "kwc-style": "git@github.com:KanoComponents/kwc-style.git",
+    "kwc-modal": "git@github.com:KanoComponents/kwc-modal.git",
+    "paper-spinner": "^2.0.0",
+    "iron-pages": "^2.0.0",
+    "iron-image": "^2.1.2"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "resolutions": {
+    "chai": "^4.1.2"
   }
 }

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -10,21 +10,36 @@
     <script src="../../web-component-tester/browser.js"></script>
 
     <link rel="import" href="../kwc-auth.html">
-  </head>
-  <body>
+</head>
+<body>
     <test-fixture id="basic">
-      <template>
-        <kwc-auth></kwc-auth>
-      </template>
+        <template>
+            <kwc-auth></kwc-auth>
+        </template>
     </test-fixture>
 
     <script>
-      suite('kwc-auth', function() {
+    suite('kwc-auth', function() {
         test('instantiating the element works', function() {
-          var element = fixture('basic');
-          assert.equal(element.is, 'kwc-auth');
+            var element = fixture('basic');
+            assert.equal(element.is, 'kwc-auth');
         });
-      });
+    });
+    /** TODO:
+     * - Open should open modal
+     * - Close should close modal
+     * - Cancel should close and fire event
+     * - Skip should close and fire event
+     * - Reset resets internal state
+     * - If isForceSignup is true the modal can't be closed
+     * - Error messages
+     * - Changing username, email, firstName and password trigger events
+     * - Submitting forms trigger events
+     * - If terms is not true, can't click continue
+     * - If processing is true, show spinner
+     * - If modal is opened, `opened` should be true
+     * - 'showXXX' should display XXX page
+     */
     </script>
-  </body>
+</body>
 </html>
