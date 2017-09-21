@@ -255,7 +255,7 @@ Front end for Kano&#39;s authentication flow.
                             </div>
                         </div>
                         <div class="submit-wrapper">
-                            <input disabled$="[[!emailValid]]" type="submit" value="Join" />
+                            <input type="submit" value="Join" />
                             <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
                         </div>
                     </form>
@@ -393,6 +393,13 @@ Front end for Kano&#39;s authentication flow.
                 newsletter: {
                     type: Boolean,
                     value: false
+                },
+                /**
+                 * Kano world URL
+                 * @type {String}
+                 */
+                worldUrl: {
+                    type: String
                 },
                 /**
                  * Path for assets used during the auth flow
