@@ -6,6 +6,7 @@
     "polymer": "Polymer/polymer#^1.9.0",
     "kwc-style": "git@github.com:KanoComponents/kwc-style.git",
     "kwc-modal": "git@github.com:KanoComponents/kwc-modal.git",
+    "kwc-behaviours": "git@github.com:KanoComponents/kwc-behaviours.git",
     "paper-spinner": "^2.0.0",
     "iron-pages": "^2.0.0",
     "iron-image": "^2.1.2"
