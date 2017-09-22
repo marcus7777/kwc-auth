@@ -17,6 +17,22 @@ Front end for Kano&#39;s authentication flow.
      - Style 1: ...
      - Style 2: ...
 
+## Properties
+  * assetsPath: Path for assets used during the auth flow.
+  * errors: Keeps track of error messages.
+  * email: Input value.
+  * firstName: Input value.
+  * isForceSignup: 
+  * newsletter: Flags if user wants to subscribe to newsletter.
+  * opened: Flags modal is opened
+  * password: Input value.
+  * processing: Flags if component is waiting an answer from server or parent component.
+  * terms: Flags if user has accepted terms and conditions.
+  * username: Input value.
+  * worldUrl: Kano world URL.
+ 
+ If `assetsPath` is given the modal will look for a motif icon at `${assetsPath}/avatar/judoka-face.svg` and an arrow icon at `${assetsPath}/icons/link-arrow.svg` so you need to provide those files.
+
 ## Installation
 Clone this repository.
 Run `bower i`
