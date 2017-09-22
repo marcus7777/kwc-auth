@@ -591,6 +591,7 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSubmitDone (e) {
                 e.preventDefault();
+                this.fire('done');
                 this.close();
             },
             /**
