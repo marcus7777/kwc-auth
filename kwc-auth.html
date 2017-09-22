@@ -5,6 +5,7 @@
 <link rel="import" href="../kwc-modal/kwc-modal.html">
 <link rel="import" href="../kwc-style/button.html">
 <link rel="import" href="../kwc-style/typography.html">
+<link rel="import" href="../kwc-behaviours/kano-validation.html">
 
 <!--
 `kwc-auth`
@@ -330,22 +331,9 @@ Front end for Kano&#39;s authentication flow.
         Polymer({
 
             is: 'kwc-auth',
+            behaviors: [Kano.Validation.Behaviour],
 
             properties: {
-                /**
-                 * Keeps track of error messages under the following schema:
-                 * {
-                 *     username: String,
-                 *     password: String,
-                 *     email: String,
-                 *     connection: String
-                 * }
-                 * @type {Object}
-                 */
-                errors: {
-                    type: Object,
-                    value: {}
-                },
                 /**
                  * User name
                  * @type {String}
@@ -532,6 +520,16 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSubmitLogin (e) {
                 e.preventDefault();
+                this.set('errors.username', undefined);
+                this.set('errors.password', undefined);
+                if (!this.username) {
+                    this.set('errors.username', 'Username cannot be empty.');
+                    return;
+                }
+                if (!this.password) {
+                    this.set('errors.password', 'Password cannot be empty.');
+                    return;
+                }
                 let credentials = {
                     username: this.username,
                     password: this.password
@@ -551,12 +549,15 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSubmitSignupInfo (e) {
                 e.preventDefault();
-                let info = {
-                    firstName: this.firstName,
-                    username: this.username,
-                    password: this.password
-                };
-                this.fire('submit-signup-info', info);
+                if (this.validateUsername(this.username) &&
+                this.validatePassword(this.password)) {
+                    let info = {
+                        firstName: this.firstName,
+                        username: this.username,
+                        password: this.password
+                    };
+                    this.fire('submit-signup-info', info);
+                }
             },
             /**
              * Handles user decide to proceed when asked to find a person with
@@ -577,17 +578,20 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSubmitSignupEmail (e) {
                 e.preventDefault();
-                let data = {
-                    email: this.email,
-                    newsletter: newsletter
-                };
-                this.fire('submit-signup-email', data);
+                if (this.validateEmail(this.email)) {
+                    let data = {
+                        email: this.email,
+                        newsletter: newsletter
+                    };
+                    this.fire('submit-signup-email', data);
+                }
             },
             /**
              * Handles form submission when process is done.
              */
             _onSubmitDone (e) {
                 e.preventDefault();
+                this.fire('done');
                 this.close();
             },
             /**
@@ -601,7 +605,9 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSumbitForgotUsername (e) {
                 e.preventDefault();
-                this.fire('forgot-username', this.email);
+                if (this.validateEmail(this.email)) {
+                    this.fire('forgot-username', this.email);
+                }
             },
             /**
              * Event signaling the user forgot the password and it's requesting
@@ -614,7 +620,9 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSubmitForgotPassword (e) {
                 e.preventDefault();
-                this.fire('forgot-password', this.username);
+                if (this.validateUsername(this.username)) {
+                    this.fire('forgot-password', this.username);
+                }
             },
 
             /** EVENT PROXIES */
