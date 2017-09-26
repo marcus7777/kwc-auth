@@ -318,7 +318,7 @@ Front end for Kano&#39;s authentication flow.
                         Or <a on-tap="showLogin">Log in <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                     </div>
                     <div class="footer">
-                        Forgot your <a on-tap="displayPasswordReset">password</a> or
+                        Forgot your <a on-tap="showPasswordReset">password</a> or
                         <a on-tap="showUsernameReminder">username</a>?<br />
                         <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                     </div>
@@ -580,8 +580,11 @@ Front end for Kano&#39;s authentication flow.
                 e.preventDefault();
                 if (this.validateEmail(this.email)) {
                     let data = {
+                        firstName: this.firstName,
+                        username: this.username,
+                        password: this.password,
                         email: this.email,
-                        newsletter: newsletter
+                        newsletter: this.newsletter
                     };
                     this.fire('submit-signup-email', data);
                 }
