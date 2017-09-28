@@ -250,13 +250,14 @@ Front end for Kano&#39;s authentication flow.
                         <div class="checkboxes">
                             <div class="checkbox-input">
                                 <input type="checkbox" checked="{{terms::change}}" id="tcs"><label for="tcs">I accept all the <a href="[[worldUrl]]/terms-of-use" target="_blank">Terms &amp; Conditions</a></label>
+                                <div class="form-error" hidden$="[[!errors.terms]]">[[errors.terms]]</div>
                             </div>
                             <div class="checkbox-input">
                                 <input type="checkbox" checked="{{newsletter::change}}" id="newsletter"><label for="newsletter">Subscribe to the Kano newsletter</label>
                             </div>
                         </div>
                         <div class="submit-wrapper">
-                            <input type="submit" value="Join" />
+                            <input type="submit" value="Join" disabled$="[[processing]]"/>
                             <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
                         </div>
                     </form>
@@ -372,7 +373,8 @@ Front end for Kano&#39;s authentication flow.
                  */
                 terms: {
                     type: Boolean,
-                    value: true
+                    value: true,
+                    observer: 'validateTerms'
                 },
                 /**
                  * Flags if user wants to subscribe to newsletter
@@ -578,7 +580,7 @@ Front end for Kano&#39;s authentication flow.
              */
             _onSubmitSignupEmail (e) {
                 e.preventDefault();
-                if (this.validateEmail(this.email)) {
+                if (this.validateEmail(this.email) && this.validateTerms(this.terms)) {
                     let data = {
                         firstName: this.firstName,
                         username: this.username,
