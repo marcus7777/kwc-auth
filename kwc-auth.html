@@ -219,20 +219,20 @@ Front end for Kano&#39;s authentication flow.
                     </div>
                 </div>
                 <div id="grownups">
-                    <h2>Now go find your mum or dad!</h2>
+                    <h2>Now go find someone who has an email address!</h2>
                     <div class="body">
-                        Ask a parent, teacher or guardian to help you (it&rsquo;ll take less than a minute).
-                        If they can&rsquo;t help right now, press &lsquo;Sign up later&rsquo;.
+                        We&rsquo;ll need their help to get you all setup for
+                        your adventure ahead
                     </div>
                     <form on-submit="_onSubmitGrownup">
                         <fieldset>
-                          <legend>Grown Ups Only</legend>
+                          <legend>For people with email only</legend>
                           <input type="submit" value="Join"/>
                         </fieldset>
                     </form>
                     <div class="footer">
                         <div class="bold">
-                            No grown ups around?
+                            No one with email around?
                         </div>
                         <a on-tap="_skip">Sign up later</a>
                     </div>
@@ -242,7 +242,7 @@ Front end for Kano&#39;s authentication flow.
                     <div class="body">
                         Kano accounts need to be associated with an adult&rsquo;s
                         email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
-                        learning to code, creative shares, and awards won.
+                        learning to code, creative shares, and medals won.
                     </div>
                     <form class="fields" on-submit="_onSubmitSignupEmail">
                         <input type="text" value="{{email::input}}" placeholder="Add your email address" tabindex="0" />
