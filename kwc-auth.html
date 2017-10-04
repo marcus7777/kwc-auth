@@ -238,10 +238,10 @@ Front end for Kano&#39;s authentication flow.
                     </div>
                 </div>
                 <div id="email">
-                    <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
+                    <h2>Secure [[_firstName]]&rsquo;s Kano Account</h2>
                     <div class="body">
                         Kano accounts need to be associated with an adult&rsquo;s
-                        email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
+                        email address. You&rsquo;ll be able to see [[_firstName]]&rsquo;s progress in
                         learning to code, creative shares, and medals won.
                     </div>
                     <form class="fields" on-submit="_onSubmitSignupEmail">
@@ -333,6 +333,7 @@ Front end for Kano&#39;s authentication flow.
 
             is: 'kwc-auth',
             behaviors: [Kano.Validation.Behaviour],
+            VIEWS: ['login', 'signup', 'grownups', 'password-reset', 'username-reminder'],
 
             properties: {
                 /**
@@ -357,7 +358,21 @@ Front end for Kano&#39;s authentication flow.
                  */
                 firstName: {
                     type: String,
+                    value: null,
                     observer: '_onChangeFirstName'
+                },
+                /**
+                 * Default user first name. This is
+                 * used if no first name is given
+                 * @type {String}
+                 */
+                defaultFirstName: {
+                    type: String,
+                    value: "your kid"
+                },
+                _firstName: {
+                    type: String,
+                    computed: '_getFirstName(firstName, defaultFirstName)'
                 },
                 /**
                  * User email
@@ -454,6 +469,9 @@ Front end for Kano&#39;s authentication flow.
                 } else {
                     return "data:image/svg+xml,%3Csvg width='7' height='9' viewBox='0 0 7 9' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPath 4 Copy%3C/title%3E%3Cpath d='M1.8 1S1 1.8 1 4.4C1 7 1.8 8 1.8 8s1-.2 2.2-1.4c1.2-1 1.7-2.2 1.7-2.3 0 0-.4-1-1.8-2S1.4 1 1.4 1z' stroke='%23000' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
                 }
+            },
+            _getFirstName (firstName, defaultFirstName) {
+                return firstName || defaultFirstName;
             },
             /** ROUTING UTILITIES */
 
@@ -670,7 +688,7 @@ Front end for Kano&#39;s authentication flow.
              */
             open (defaultPage) {
                 this.reset();
-                defaultPage = defaultPage || 'login';
+                defaultPage = this.VIEWS.indexOf(defaultPage) > -1 ?  defaultPage : 'login';
                 this._setView(defaultPage);
                 this.$.dialog.open();
             },
