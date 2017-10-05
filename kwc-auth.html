@@ -8,8 +8,18 @@
 <link rel="import" href="../kwc-behaviours/kano-validation.html">
 
 <!--
-`kwc-auth`
-Front end for Kano&#39;s authentication flow.
+`<kwc-auth>` Front end for Kano&#39;s authentication flow.
+
+This component implements view according to the current User Login Journey as descibe in this [working document](https://docs.google.com/a/kano.me/drawings/d/1TJx_Y6rA6tQYHww99x2aJy4qxoWrQZzoOjYEnQUh5f0/edit?usp=sharing). **Please note** _this link is not guaranteed to be in sync with the component but should be a good guide_.
+
+Add this component somewhere in your html body and set some EventListeners to interact with its many useful events.
+
+```html
+    <body>
+      <kwc-auth></kwc-auth>
+```
+
+Now you are ready to authenticate!
 
 @demo demo/index.html
 -->
@@ -238,12 +248,22 @@ Front end for Kano&#39;s authentication flow.
                     </div>
                 </div>
                 <div id="email">
-                    <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
-                    <div class="body">
-                        Kano accounts need to be associated with an adult&rsquo;s
-                        email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
-                        learning to code, creative shares, and medals won.
-                    </div>
+                    <template is="dom-if" if="{{firstName}}">
+                        <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
+                        <div class="body">
+                            Kano accounts need to be associated with an adult&rsquo;s
+                            email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
+                            learning to code, creative shares, and medals won.
+                        </div>
+                    </template>
+                    <template is="dom-if" if="{{!firstName}}">
+                        <h2>Secure this Kano Account</h2>
+                        <div class="body">
+                            Kano accounts need to be associated with an adult&rsquo;s
+                            email address. You&rsquo;ll be able to see progress in
+                            learning to code, creative shares, and medals won.
+                        </div>
+                    </template>
                     <form class="fields" on-submit="_onSubmitSignupEmail">
                         <input type="text" value="{{email::input}}" placeholder="Add your email address" tabindex="0" />
                         <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
@@ -333,6 +353,7 @@ Front end for Kano&#39;s authentication flow.
 
             is: 'kwc-auth',
             behaviors: [Kano.Validation.Behaviour],
+            _VIEWS: ['login', 'signup', 'grownups', 'password-reset', 'username-reminder'],
 
             properties: {
                 /**
@@ -357,6 +378,7 @@ Front end for Kano&#39;s authentication flow.
                  */
                 firstName: {
                     type: String,
+                    value: null,
                     observer: '_onChangeFirstName'
                 },
                 /**
@@ -426,7 +448,7 @@ Front end for Kano&#39;s authentication flow.
                 },
                 /**
                  * Flags if modal can be closed or not. If `isForceSignup` is
-                 * `true` then the `kwc-modal` shouldn't be closable.
+                 * `true` then the `kwc-modal` is not closable.
                  * @type {Boolean}
                  */
                 isForceSignup: {
@@ -664,18 +686,20 @@ Front end for Kano&#39;s authentication flow.
             /** MODAL CONTROL */
 
             /**
-             * Opens auth modal with a default page on display.
-             * @param {String} defaultPage Page to display when auth modal
-             *     opens. Not required.
+             * Open the `kwc-auth` modal. The default view is the [`login`](#login) view. This can be overidden if a valid view name is passed.
+             * 
+             * @param {String} defaultPage Page to display when auth modal opens. Not required. one of `login`, `signup`, `grownups`, `password-reset` or `username-reminder`.
              */
             open (defaultPage) {
                 this.reset();
-                defaultPage = defaultPage || 'login';
+                defaultPage = this._VIEWS.indexOf(defaultPage) > -1 ?  defaultPage : 'login';
                 this._setView(defaultPage);
                 this.$.dialog.open();
             },
             /**
-             * Closes auth modal.
+             * Closes auth modal. 
+             * 
+             * A [ronseal](http://media-assets-02.thedrum.com/cache/images/thedrum-prod/public-news-tmp-56351-1806130_orig--default--300.jpg) function. It does what it says on the tin.
              */
             close () {
                 this.$.dialog.close();
@@ -706,8 +730,16 @@ Front end for Kano&#39;s authentication flow.
             /** INTERNAL STATE MANAGEMENT */
 
             /**
-             * Resets user information information: `firstName`, `username`,
-             * `password`, `email`, `terms` and `newsletter`.
+             * Reset the internal state of the auth modal. Essentially 
+             *   ```js
+             *      kwc-auth.errors = {};
+             *      kwc-auth.firstName = null;
+             *      kwc-auth.username = null;
+             *      kwc-auth.password = null;
+             *      kwc-auth.email = null;
+             *      kwc-auth.terms = true;
+             *      kwc-auth.newsletter = false;
+             *   ```
              */
             reset () {
                 this.set('errors', {});
