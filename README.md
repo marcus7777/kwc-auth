@@ -3,9 +3,10 @@
 ## Purpose
 Front end for Kano&#39;s authentication flow.
 
+This component implements view according to the current User Login Journey as descibe in this [working document](https://docs.google.com/a/kano.me/drawings/d/1TJx_Y6rA6tQYHww99x2aJy4qxoWrQZzoOjYEnQUh5f0/edit?usp=sharing). **Please note** _this link is not garunteed to be in sync with the component but should be a good guide_.
+
 ## Properties
   * assetsPath: Path for assets used during the auth flow.
-  * defaultFirstName: Default user first name. This is used during signup if no first name is given
   * errors: Keeps track of error messages.
   * email: Input value.
   * firstName: Input value.
@@ -52,14 +53,7 @@ Router helper functions that allow an external component to trigger a view chang
 ## Auth Flows and Views
 This component is very specific to the authentication flow as it is currently specified for the `kano` apps. It does not contain any logic for completing the authentication flows, that is defered the the context in which the component is used. The views are for collecting the relevant user data so any parent (probably app specific) component can complete the communicaiton with the api and process any responses.
 ### Login | Signup
-The first flow is for authenticating a user. (__NOTE: This flow may be updated before this doc is!__). Either a user authenticates an existing account or creates a new account and is logged in on completion.
-
-<table>
-    <tr>
-        <td style="vertical-align:top"><img src="docs/img/LoginSignupClick.png"></td>
-        <td><img src="docs/img/CreateAccount.png"></td>
-    </tr>
-</table>
+The first flow is for authenticating a user. (__NOTE: This flow may be updated before this doc is!__). Either a user authenticates an existing account or creates a new account and is logged in on completion. (See [here](https://docs.google.com/a/kano.me/drawings/d/1TJx_Y6rA6tQYHww99x2aJy4qxoWrQZzoOjYEnQUh5f0/edit?usp=sharing) for more detail.)
 
 The `kwc-auth` component implements views for [login](#login) and [signup](#signup) with links between the two.
 #### login
@@ -73,9 +67,7 @@ The `kwc-auth` component implements views for [login](#login) and [signup](#sign
 * On submit event: [`submit-signup-email`](#submit-signup-email).
 
 ### Forget credentials
-The `kwc-auth` component implements two views to allow a user to enter information in order to recover forgotten credentials. Username recovery flow accepts a valid email address and password recovery asks for a username.
-
-![Username or Password Recovery](docs/img/UsernamePasswordReminder.png)
+The `kwc-auth` component implements two views to allow a user to enter information in order to recover forgotten credentials. Username recovery flow accepts a valid email address and password recovery asks for a username. (See [here](https://docs.google.com/a/kano.me/drawings/d/1TJx_Y6rA6tQYHww99x2aJy4qxoWrQZzoOjYEnQUh5f0/edit?usp=sharing) for more detail.)
 
 #### password-reset
 * Fields: username.

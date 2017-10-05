@@ -238,12 +238,22 @@ Front end for Kano&#39;s authentication flow.
                     </div>
                 </div>
                 <div id="email">
-                    <h2>Secure [[_firstName]]&rsquo;s Kano Account</h2>
-                    <div class="body">
-                        Kano accounts need to be associated with an adult&rsquo;s
-                        email address. You&rsquo;ll be able to see [[_firstName]]&rsquo;s progress in
-                        learning to code, creative shares, and medals won.
-                    </div>
+                    <template is="dom-if" if="{{firstName}}">
+                        <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
+                        <div class="body">
+                            Kano accounts need to be associated with an adult&rsquo;s
+                            email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
+                            learning to code, creative shares, and medals won.
+                        </div>
+                    </template>
+                    <template is="dom-if" if="{{!firstName}}">
+                        <h2>Secure this Kano Account</h2>
+                        <div class="body">
+                            Kano accounts need to be associated with an adult&rsquo;s
+                            email address. You&rsquo;ll be able to see progress in
+                            learning to code, creative shares, and medals won.
+                        </div>
+                    </template>
                     <form class="fields" on-submit="_onSubmitSignupEmail">
                         <input type="text" value="{{email::input}}" placeholder="Add your email address" tabindex="0" />
                         <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
@@ -362,19 +372,6 @@ Front end for Kano&#39;s authentication flow.
                     observer: '_onChangeFirstName'
                 },
                 /**
-                 * Default user first name. This is
-                 * used if no first name is given
-                 * @type {String}
-                 */
-                defaultFirstName: {
-                    type: String,
-                    value: "your kid"
-                },
-                _firstName: {
-                    type: String,
-                    computed: '_getFirstName(firstName, defaultFirstName)'
-                },
-                /**
                  * User email
                  * @type {String}
                  */
@@ -469,9 +466,6 @@ Front end for Kano&#39;s authentication flow.
                 } else {
                     return "data:image/svg+xml,%3Csvg width='7' height='9' viewBox='0 0 7 9' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPath 4 Copy%3C/title%3E%3Cpath d='M1.8 1S1 1.8 1 4.4C1 7 1.8 8 1.8 8s1-.2 2.2-1.4c1.2-1 1.7-2.2 1.7-2.3 0 0-.4-1-1.8-2S1.4 1 1.4 1z' stroke='%23000' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
                 }
-            },
-            _getFirstName (firstName, defaultFirstName) {
-                return firstName || defaultFirstName;
             },
             /** ROUTING UTILITIES */
 
