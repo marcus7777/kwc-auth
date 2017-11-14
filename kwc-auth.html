@@ -304,7 +304,7 @@ Now you are ready to authenticate!
                     <h2>Forgotten your username?</h2>
                     <form class="fields" on-submit="_onSumbitForgotUsername">
                         <input type="text" value="{{email::input}}" placeholder="Your email address" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.email[[">[[errors.email]]</div>
+                        <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
                         <div class="submit-wrapper">
                             <input disabled$="[[processing]]" type="submit" value="Request reminder" />
                             <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
