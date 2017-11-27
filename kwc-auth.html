@@ -454,6 +454,21 @@ Now you are ready to authenticate!
                 isForceSignup: {
                     type: Boolean,
                     value: false
+                },
+                /**
+                 * Error messages
+                 * @type {Object}
+                 */
+                errors: {
+                    type: Object,
+                    value: () => {
+                        return {
+                            email: null,
+                            password: null,
+                            username: null,
+                            termos: null
+                        }
+                    }
                 }
             },
             /**
@@ -461,6 +476,7 @@ Now you are ready to authenticate!
              * @param {String} viewName What view to make selected.
              */
             _setView (viewName) {
+                this.set('errors', null);
                 this.$.pager.selected = viewName;
             },
             _computeMotifUrl (assetsPath) {
@@ -687,7 +703,7 @@ Now you are ready to authenticate!
 
             /**
              * Open the `kwc-auth` modal. The default view is the [`login`](#login) view. This can be overidden if a valid view name is passed.
-             * 
+             *
              * @param {String} defaultPage Page to display when auth modal opens. Not required. one of `login`, `signup`, `grownups`, `password-reset` or `username-reminder`.
              */
             open (defaultPage) {
@@ -697,8 +713,8 @@ Now you are ready to authenticate!
                 this.$.dialog.open();
             },
             /**
-             * Closes auth modal. 
-             * 
+             * Closes auth modal.
+             *
              * A [ronseal](http://media-assets-02.thedrum.com/cache/images/thedrum-prod/public-news-tmp-56351-1806130_orig--default--300.jpg) function. It does what it says on the tin.
              */
             close () {
@@ -730,7 +746,7 @@ Now you are ready to authenticate!
             /** INTERNAL STATE MANAGEMENT */
 
             /**
-             * Reset the internal state of the auth modal. Essentially 
+             * Reset the internal state of the auth modal. Essentially
              *   ```js
              *      kwc-auth.errors = {};
              *      kwc-auth.firstName = null;
