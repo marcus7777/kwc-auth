@@ -404,7 +404,7 @@ Now you are ready to authenticate!
                  */
                 newsletter: {
                     type: Boolean,
-                    value: false
+                    value: true
                 },
                 /**
                  * Kano world URL
@@ -754,7 +754,7 @@ Now you are ready to authenticate!
              *      kwc-auth.password = null;
              *      kwc-auth.email = null;
              *      kwc-auth.terms = true;
-             *      kwc-auth.newsletter = false;
+             *      kwc-auth.newsletter = true;
              *   ```
              */
             reset () {
@@ -764,7 +764,7 @@ Now you are ready to authenticate!
                 this.password = null;
                 this.email = null;
                 this.terms = true;
-                this.newsletter = false;
+                this.newsletter = true;
             }
         });
     </script>
