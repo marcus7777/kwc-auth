@@ -192,9 +192,9 @@ Now you are ready to authenticate!
                 <div id="login">
                     <h2>Log in to your account</h2>
                     <form class="fields" on-submit="_onSubmitLogin">
-                        <input type="text" value="{{username::input}}" placeholder="Your Kano username" tabindex="0" />
+                        <input type="text" value="{{username::input}}" autocomplete="username" placeholder="Your Kano username" tabindex="0" />
                         <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
-                        <input type="password" value="{{password::input}}" placeholder="Your secret password" tabindex="0" />
+                        <input type="password" value="{{password::input}}" autocomplete="current-password" placeholder="Your secret password" tabindex="0" />
                         <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
                         <div class="submit-wrapper">
                             <input disabled$="[[processing]]" type="submit" value="Log in" />
