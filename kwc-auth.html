@@ -30,21 +30,6 @@ Now you are ready to authenticate!
             :host {
                 --paper-spinner-color: #ff842a;
             }
-            kano-modal {
-                --kano-modal-main: {
-                    color: #4d4d4d;
-                };
-            }
-            kano-modal > * {
-                margin: auto;
-                color: #4d4d4d;
-            }
-            kano-modal {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-            }
             #pager {
                 padding: 50px 0 40px;
                 margin-top: 85px;
@@ -103,6 +88,8 @@ Now you are ready to authenticate!
                 background-color: #ff842a;
                 font-weight: bold;
                 width: 80%;
+                /** Prevent Safari on iOS overriding the button styles */
+                -webkit-appearance: none;
             }
             input[type=submit]:hover {
                 background-color: #fd621e;
