@@ -464,14 +464,6 @@ Now you are ready to authenticate!
                     }
                 }
             },
-            /**
-             * Changes current view to be displayed by `iron-pages`.
-             * @param {String} viewName What view to make selected.
-             */
-            _setView (viewName) {
-                this.set('errors', null);
-                this.$.pager.selected = viewName;
-            },
             _computeMotifUrl (assetsPath) {
                 if (assetsPath) {
                     return `${assetsPath}/avatar/judoka-face.svg`
@@ -492,53 +484,53 @@ Now you are ready to authenticate!
              * Displays login page.
              */
             showLogin () {
-                this._setView('login');
+                this.set('view', 'login');
             },
             /**
              * Displays signup page.
              */
             showSignup () {
-                this._setView('signup');
+                this.set('view', 'signup');
             },
             /**
              * Displays page that asks for a person with an email to secure the
              * account.
              */
             showGrownup () {
-                this._setView('grownups');
+                this.set('view', 'grownups');
             },
             /**
              * Displays page where the account is secured with an email.
              */
             showEmail () {
-                this._setView('email');
+                this.set('view', 'email');
             },
             /**
              * Displays success page informing that the account was created with
              * success.
              */
             showDone () {
-                this._setView('done');
+                this.set('view', 'done');
             },
             /**
              * Displays page asking for username when user can't remember the
              * password.
              */
             showPasswordReset () {
-                this._setView('password-reset');
+                this.set('view', 'password-reset');
             },
             /**
              * Displays page confirming the password reset request was sent.
              */
             showResetConfirmation () {
-                this._setView('reset-confirmation');
+                this.set('view', 'reset-confirmation');
             },
             /**
              * Displays page asking for an emaile address when user can't
              * remember the username.
              */
             showUsernameReminder () {
-                this._setView('username-reminder');
+                this.set('view', 'username-reminder');
             },
 
             /** FORM SUBMISSION */
@@ -628,7 +620,6 @@ Now you are ready to authenticate!
             _onSubmitDone (e) {
                 e.preventDefault();
                 this.fire('done');
-                this.close();
             },
             /**
              * Event signaling the uer forgot the username and it's requesting a
@@ -690,50 +681,6 @@ Now you are ready to authenticate!
              */
             _onChangeEmail (email) {
                 this.fire('change-email', email);
-            },
-
-            /** MODAL CONTROL */
-
-            /**
-             * Open the `kwc-auth` modal. The default view is the [`login`](#login) view. This can be overidden if a valid view name is passed.
-             *
-             * @param {String} defaultPage Page to display when auth modal opens. Not required. one of `login`, `signup`, `grownups`, `password-reset` or `username-reminder`.
-             */
-            open (defaultPage) {
-                this.reset();
-                defaultPage = this._VIEWS.indexOf(defaultPage) > -1 ?  defaultPage : 'login';
-                this._setView(defaultPage);
-                this.$.dialog.open();
-            },
-            /**
-             * Closes auth modal.
-             *
-             * A [ronseal](http://media-assets-02.thedrum.com/cache/images/thedrum-prod/public-news-tmp-56351-1806130_orig--default--300.jpg) function. It does what it says on the tin.
-             */
-            close () {
-                this.$.dialog.close();
-            },
-            /**
-             * Fired when user actively choses to skip the sign in process.
-             * @event skip
-             */
-            /**
-             * Skips sign up. Behaves the same as canceling auth.
-             */
-            _skip () {
-                this.fire('skip');
-                this._cancel();
-            },
-            /**
-             * Fires when user dismiss the authentication by closing the modal.
-             * @event cancel
-             */
-            /**
-             * Cancel auth flow and close modal.
-             */
-            _cancel () {
-                this.fire('cancel');
-                this.close();
             },
 
             /** INTERNAL STATE MANAGEMENT */
