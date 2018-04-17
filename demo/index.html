@@ -32,88 +32,58 @@
         <h3>Basic kwc-auth demo</h3>
         <demo-snippet>
             <template>
-                <button id="open-button" style="cursor:pointer" type="button">Open modal</button>
                 <kwc-auth id="auth"
                         world-url="https://world-staging.kano.me"
                         api-url="https://api-staging.kano.me"
-                        assets-path="demo-assets">
+                        assets-path="demo-assets"
+                        view="login">
                 </kwc-auth>
             </template>
         </demo-snippet>
         <h3>Signup kwc-auth demo</h3>
         <demo-snippet>
             <template>
-                <button id="open-su-button" style="cursor:pointer" type="button">Open modal (signup)</button>
-                <!--
-                const auth = document.querySelector('#auth');
-                document.querySelector('#open-su-button').addEventListener('click', function() {
-                    auth.open('signup');
-                });
-                -->
+                <kwc-auth id="auth"
+                    world-url="https://world-staging.kano.me"
+                    api-url="https://api-staging.kano.me"
+                    assets-path="demo-assets"
+                    view="signup">
+                </kwc-auth>
             </template>
         </demo-snippet>
         <h3>Grownups kwc-auth demo</h3>
         <demo-snippet>
             <template>
-                <button id="open-gu-button" style="cursor:pointer" type="button">Open modal (grownups)</button>
-                <!--
-                const auth = document.querySelector('#auth');
-                document.querySelector('#open-gu-button').addEventListener('click', function() {
-                    auth.open('grownups');
-                });
-                -->
+                <kwc-auth id="auth"
+                    world-url="https://world-staging.kano.me"
+                    api-url="https://api-staging.kano.me"
+                    assets-path="demo-assets"
+                    view="grownups">
+                </kwc-auth>
             </template>
         </demo-snippet>
         <h3>Forgot password kwc-auth demo</h3>
         <demo-snippet>
             <template>
-                <button id="open-fp-button" style="cursor:pointer" type="button">Open modal (Forgot Password)</button>
-                <!--
-                const auth = document.querySelector('#auth');
-                document.querySelector('#open-fp-button').addEventListener('click', function() {
-                    auth.open('password-reset');
-                });
-                -->
+                <kwc-auth id="auth"
+                    world-url="https://world-staging.kano.me"
+                    api-url="https://api-staging.kano.me"
+                    assets-path="demo-assets"
+                    view="password-reset">
+                </kwc-auth>
             </template>
         </demo-snippet>
         <h3>Forgot username kwc-auth demo</h3>
         <demo-snippet>
             <template>
-                <button id="open-fu-button" style="cursor:pointer" type="button">Open modal (Forgot Username)</button>
-                <!--
-                const auth = document.querySelector('#auth');
-                document.querySelector('#open-fu-button').addEventListener('click', function() {
-                    auth.open('username-reminder');
-                });
-                -->
+                <kwc-auth id="auth"
+                    world-url="https://world-staging.kano.me"
+                    api-url="https://api-staging.kano.me"
+                    assets-path="demo-assets"
+                    view="username-reminder">
+                </kwc-auth>
             </template>
         </demo-snippet>
-        <script type="text/javascript">
-            document.addEventListener('WebComponentsReady', () => {
-                const auth = document.querySelector('#auth');
-                const openButton = document.querySelector('#open-button'),
-                    openSUButton = document.querySelector('#open-su-button');
-                    openGUButton = document.querySelector('#open-gu-button');
-                    openFPButton = document.querySelector('#open-fp-button');
-                    openFUButton = document.querySelector('#open-fu-button');
-                auth.open();
-                openButton.addEventListener('click', function() {
-                    auth.open();
-                });
-                openSUButton.addEventListener('click', function() {
-                    auth.open('signup');
-                });
-                openGUButton.addEventListener('click', function() {
-                    auth.open('grownups');
-                });
-                openFPButton.addEventListener('click', function() {
-                    auth.open('password-reset');
-                });
-                openFUButton.addEventListener('click', function() {
-                    auth.open('username-reminder');
-                });
-            });
-        </script>
     </div>
 </body>
 </html>

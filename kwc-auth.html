@@ -174,165 +174,163 @@ Now you are ready to authenticate!
                 }
             }
         </style>
-        <kwc-modal id="dialog" on-dismiss="_cancel" motif="[[_motifUrl]]" opened="{{opened}}" closable="{{!isForceSignup}}">
-            <iron-pages attr-for-selected="id" selected="login" id="pager">
-                <div id="login">
-                    <h2>Log in to your account</h2>
-                    <form class="fields" on-submit="_onSubmitLogin">
-                        <input type="text" value="{{username::input}}" placeholder="Your Kano username" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
-                        <input type="password" value="{{password::input}}" placeholder="Your secret password" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
-                        <div class="submit-wrapper">
-                            <input disabled$="[[processing]]" type="submit" value="Log in" />
-                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
-                        </div>
-                    </form>
-                    <div class="footer">
-                        Forgot your <a on-tap="showPasswordReset">password</a> or
-                        <a on-tap="showUsernameReminder">username</a>?<br />
-                        <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
+        <iron-pages attr-for-selected="id" selected="[[view]]" id="pager">
+            <div id="login">
+                <h2>Log in to your account</h2>
+                <form class="fields" on-submit="_onSubmitLogin">
+                    <input type="text" value="{{username::input}}" placeholder="Your Kano username" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
+                    <input type="password" value="{{password::input}}" placeholder="Your secret password" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
+                    <div class="submit-wrapper">
+                        <input disabled$="[[processing]]" type="submit" value="Log in" />
+                        <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
                     </div>
+                </form>
+                <div class="footer">
+                    Forgot your <a on-tap="showPasswordReset">password</a> or
+                    <a on-tap="showUsernameReminder">username</a>?<br />
+                    <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                 </div>
-                <div id="signup">
-                    <h2>Save your XP: join Kano</h2>
+            </div>
+            <div id="signup">
+                <h2>Save your XP: join Kano</h2>
+                <div class="body">
+                    Make a special username to save what you&rsquo;ve earned.
+                </div>
+                <form class="fields" on-submit="_onSubmitSignupInfo">
+                    <input type="text" value="{{firstName::input}}" placeholder="Type your first name" tabindex="0" />
+                    <input type="text" value="{{username::input}}" placeholder="Make up a Kano username" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
+                    <input type="password" value="{{password::input}}" placeholder="Make up a secret password" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
+                    <div class="submit-wrapper">
+                        <input disabled$="[[processing]]" type="submit" value="Join" />
+                        <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                    </div>
+                </form>
+                <div class="footer">
+                    Have an account already? Go to <br>
+                    <a on-tap="showLogin">Log in <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
+                </div>
+            </div>
+            <div id="grownups">
+                <h2>Now go find someone who has an email address!</h2>
+                <div class="body">
+                    We&rsquo;ll need their help to get you all setup for
+                    your adventure ahead
+                </div>
+                <form on-submit="_onSubmitGrownup">
+                    <fieldset>
+                        <legend>For people with email only</legend>
+                        <input type="submit" value="Join"/>
+                    </fieldset>
+                </form>
+                <div class="footer">
+                    <div class="bold">
+                        No one with email around?
+                    </div>
+                    <a on-tap="_skip">Sign up later</a>
+                </div>
+            </div>
+            <div id="email">
+                <template is="dom-if" if="{{firstName}}">
+                    <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
                     <div class="body">
-                        Make a special username to save what you&rsquo;ve earned.
+                        Kano accounts need to be associated with an adult&rsquo;s
+                        email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
+                        learning to code, creative shares, and medals won.
                     </div>
-                    <form class="fields" on-submit="_onSubmitSignupInfo">
-                        <input type="text" value="{{firstName::input}}" placeholder="Type your first name" tabindex="0" />
-                        <input type="text" value="{{username::input}}" placeholder="Make up a Kano username" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
-                        <input type="password" value="{{password::input}}" placeholder="Make up a secret password" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.password]]">[[errors.password]]</div>
-                        <div class="submit-wrapper">
-                            <input disabled$="[[processing]]" type="submit" value="Join" />
-                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
-                        </div>
-                    </form>
-                    <div class="footer">
-                        Have an account already? Go to <br>
-                        <a on-tap="showLogin">Log in <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
-                    </div>
-                </div>
-                <div id="grownups">
-                    <h2>Now go find someone who has an email address!</h2>
+                </template>
+                <template is="dom-if" if="{{!firstName}}">
+                    <h2>Secure this Kano Account</h2>
                     <div class="body">
-                        We&rsquo;ll need their help to get you all setup for
-                        your adventure ahead
+                        Kano accounts need to be associated with an adult&rsquo;s
+                        email address. You&rsquo;ll be able to see progress in
+                        learning to code, creative shares, and medals won.
                     </div>
-                    <form on-submit="_onSubmitGrownup">
-                        <fieldset>
-                          <legend>For people with email only</legend>
-                          <input type="submit" value="Join"/>
-                        </fieldset>
-                    </form>
-                    <div class="footer">
-                        <div class="bold">
-                            No one with email around?
+                </template>
+                <form class="fields" on-submit="_onSubmitSignupEmail">
+                    <input type="text" value="{{email::input}}" placeholder="Add your email address" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
+                    <div class="checkboxes">
+                        <div class="checkbox-input">
+                            <input type="checkbox" checked="{{terms::change}}" id="tcs"><label for="tcs">I accept all the <a href="[[worldUrl]]/terms-of-use" target="_blank">Terms &amp; Conditions</a></label>
+                            <div class="form-error" hidden$="[[!errors.terms]]">[[errors.terms]]</div>
                         </div>
-                        <a on-tap="_skip">Sign up later</a>
+                        <div class="checkbox-input">
+                            <input type="checkbox" checked="{{newsletter::change}}" id="newsletter"><label for="newsletter">Subscribe to the Kano newsletter</label>
+                        </div>
                     </div>
+                    <div class="submit-wrapper">
+                        <input type="submit" value="Join" disabled$="[[processing]]"/>
+                        <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                    </div>
+                </form>
+                <div class="modal-error" hidden$="[[!errors.connection]]">[[errors.connection]]</div>
+            </div>
+            <div id="done">
+                <h2>You&rsquo;ve made a Kano Account</h2>
+                <div class="body">
+                    Write down your username and password. Keep them
+                    somewhere secret and safe.
                 </div>
-                <div id="email">
-                    <template is="dom-if" if="{{firstName}}">
-                        <h2>Secure [[firstName]]&rsquo;s Kano Account</h2>
-                        <div class="body">
-                            Kano accounts need to be associated with an adult&rsquo;s
-                            email address. You&rsquo;ll be able to see [[firstName]]&rsquo;s progress in
-                            learning to code, creative shares, and medals won.
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{!firstName}}">
-                        <h2>Secure this Kano Account</h2>
-                        <div class="body">
-                            Kano accounts need to be associated with an adult&rsquo;s
-                            email address. You&rsquo;ll be able to see progress in
-                            learning to code, creative shares, and medals won.
-                        </div>
-                    </template>
-                    <form class="fields" on-submit="_onSubmitSignupEmail">
-                        <input type="text" value="{{email::input}}" placeholder="Add your email address" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
-                        <div class="checkboxes">
-                            <div class="checkbox-input">
-                                <input type="checkbox" checked="{{terms::change}}" id="tcs"><label for="tcs">I accept all the <a href="[[worldUrl]]/terms-of-use" target="_blank">Terms &amp; Conditions</a></label>
-                                <div class="form-error" hidden$="[[!errors.terms]]">[[errors.terms]]</div>
-                            </div>
-                            <div class="checkbox-input">
-                                <input type="checkbox" checked="{{newsletter::change}}" id="newsletter"><label for="newsletter">Subscribe to the Kano newsletter</label>
-                            </div>
-                        </div>
-                        <div class="submit-wrapper">
-                            <input type="submit" value="Join" disabled$="[[processing]]"/>
-                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
-                        </div>
-                    </form>
-                    <div class="modal-error" hidden$="[[!errors.connection]]">[[errors.connection]]</div>
+                <form on-submit="_onSubmitDone">
+                    <fieldset class="grey">
+                        <legend>Keep this safe</legend>
+                        <div class="username"><strong>Username</strong> [[username]]</div>
+                        <div class="password"><strong>Password</strong> [[password]]</div>
+                    </fieldset>
+                    <div class="submit-wrapper">
+                        <input type="submit" value="Done" />
+                    </div>
+                </form>
+            </div>
+            <div id="username-reminder">
+                <h2>Forgotten your username?</h2>
+                <form class="fields" on-submit="_onSumbitForgotUsername">
+                    <input type="text" value="{{email::input}}" placeholder="Your email address" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
+                    <div class="submit-wrapper">
+                        <input disabled$="[[processing]]" type="submit" value="Request reminder" />
+                        <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
+                    </div>
+                </form>
+                <div class="footer">
+                    <a on-tap="showPasswordReset">Forgot your password?</a><br />
+                    <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                 </div>
-                <div id="done">
-                    <h2>You&rsquo;ve made a Kano Account</h2>
-                    <div class="body">
-                        Write down your username and password. Keep them
-                        somewhere secret and safe.
+            </div>
+            <div id="password-reset">
+                <h2>Forgotten your password?</h2>
+                <form class="fields" on-submit="_onSubmitForgotPassword">
+                    <input type="text" value="{{username::input}}" placeholder="Your username" tabindex="0" />
+                    <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
+                    <div class="submit-wrapper">
+                        <input disabled$="[[processing]]" type="submit" value="Request new password" />
+                        <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
                     </div>
-                    <form on-submit="_onSubmitDone">
-                        <fieldset class="grey">
-                          <legend>Keep this safe</legend>
-                          <div class="username"><strong>Username</strong> [[username]]</div>
-                          <div class="password"><strong>Password</strong> [[password]]</div>
-                        </fieldset>
-                        <div class="submit-wrapper">
-                            <input type="submit" value="Done" />
-                        </div>
-                    </form>
+                </form>
+                <div class="footer">
+                    <a on-tap="showUsernameReminder">Forgot your username?</a><br />
+                    <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                 </div>
-                <div id="username-reminder">
-                    <h2>Forgotten your username?</h2>
-                    <form class="fields" on-submit="_onSumbitForgotUsername">
-                        <input type="text" value="{{email::input}}" placeholder="Your email address" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.email]]">[[errors.email]]</div>
-                        <div class="submit-wrapper">
-                            <input disabled$="[[processing]]" type="submit" value="Request reminder" />
-                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
-                        </div>
-                    </form>
-                    <div class="footer">
-                        <a on-tap="showPasswordReset">Forgot your password?</a><br />
-                        <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
-                    </div>
+            </div>
+            <div id="reset-confirmation">
+                <h2>Thanks!</h2>
+                <div class="body">
+                    Please check your email and follow the instructions that have been sent to you.
                 </div>
-                <div id="password-reset">
-                    <h2>Forgotten your password?</h2>
-                    <form class="fields" on-submit="_onSubmitForgotPassword">
-                        <input type="text" value="{{username::input}}" placeholder="Your username" tabindex="0" />
-                        <div class="form-error" hidden$="[[!errors.username]]">[[errors.username]]</div>
-                        <div class="submit-wrapper">
-                            <input disabled$="[[processing]]" type="submit" value="Request new password" />
-                            <paper-spinner-lite active="[[processing]]"></paper-spinner-lite>
-                        </div>
-                    </form>
-                    <div class="footer">
-                        <a on-tap="showUsernameReminder">Forgot your username?</a><br />
-                        <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
-                    </div>
+                <div class="body">
+                    Or <a on-tap="showLogin">Log in <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                 </div>
-                <div id="reset-confirmation">
-                    <h2>Thanks!</h2>
-                    <div class="body">
-                        Please check your email and follow the instructions that have been sent to you.
-                    </div>
-                    <div class="body">
-                        Or <a on-tap="showLogin">Log in <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
-                    </div>
-                    <div class="footer">
-                        Forgot your <a on-tap="showPasswordReset">password</a> or
-                        <a on-tap="showUsernameReminder">username</a>?<br />
-                        <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
-                    </div>
+                <div class="footer">
+                    Forgot your <a on-tap="showPasswordReset">password</a> or
+                    <a on-tap="showUsernameReminder">username</a>?<br />
+                    <a on-tap="showSignup">Sign up <img src="[[_linkArrowIcon]]" class="link-arrow" /></a>
                 </div>
-            </iron-pages>
-        </kwc-modal>
+            </div>
+        </iron-pages>
     </template>
 
     <script>
@@ -343,6 +341,14 @@ Now you are ready to authenticate!
             _VIEWS: ['login', 'signup', 'grownups', 'password-reset', 'username-reminder'],
 
             properties: {
+                /**
+                 * View
+                 * @type {String}
+                 */
+                 view: {
+                    type: String,
+                    value: 'login'
+                },
                 /**
                  * User name
                  * @type {String}
